@@ -110,7 +110,8 @@ var UIController = (function () {
         budgetLabel: '.budget__value',
         incomeLabel: '.budget__income--value',
         expenseLabel: '.budget__expenses--value',
-        percentageLabel: '.budget__expenses--percentage'
+        percentageLabel: '.budget__expenses--percentage',
+        container: '.container'
     }
 
     return {
@@ -130,7 +131,7 @@ var UIController = (function () {
             // Create HTML string with placeholer text
             if (type === 'inc') {
                 element = DOMstrings.incomeContainer;
-                html = `<div class="item clearfix" id="income-%id%">
+                html = `<div class="item clearfix" id="inc-%id%">
                             <div class="item__description">%description%</div>
                             <div class="right clearfix">
                                 <div class="item__value">%value%</div>
@@ -141,7 +142,7 @@ var UIController = (function () {
                         </div>`;
             } else if (type === 'exp') {
                 element = DOMstrings.expensesContainer;
-                html = `<div class="item clearfix" id="expense-%id%">
+                html = `<div class="item clearfix" id="exp-%id%">
                             <div class="item__description">%description%</div>
                             <div class="right clearfix">
                                 <div class="item__value">%value%</div>
@@ -178,14 +179,14 @@ var UIController = (function () {
 
         },
 
-        displayBudget: function(obj) {
+        displayBudget: function (obj) {
 
             document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
             document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
             document.querySelector(DOMstrings.expenseLabel).textContent = obj.totalExp;
-           
-            
-            if(obj.percentage> 0) {
+
+
+            if (obj.percentage > 0) {
                 document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + "%";
             } else {
                 document.querySelector(DOMstrings.percentageLabel).textContent = '---'
@@ -218,6 +219,8 @@ var controller = (function (budgetCtrl, UICtrl) {
             }
 
         });
+
+        document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
     }
 
     var updateBudget = function () {
@@ -260,6 +263,25 @@ var controller = (function (budgetCtrl, UICtrl) {
         }
 
     };
+
+    var ctrlDeleteItem = function (event) {
+        var itemID, splitID, type, ID;
+
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+
+        if (itemID) {
+
+            // inc-1
+            splitID = itemID.split('-');
+            type = splitID[0];
+            ID = splitID[1];
+            // 1. delete the item from the date structure
+
+            // 2. delete the itrm from the UI
+            
+            // 3. Update and show the new budget
+        }
+    }
 
     return {
         init: function () {
